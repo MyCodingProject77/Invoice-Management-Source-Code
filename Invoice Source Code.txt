@@ -1,0 +1,64 @@
+
+          SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-HEEKBHE\SQLEXPRESS;Initial Catalog=invoicedb;Integrated Security=True");
+
+
+
+
+
+          Insert Code
+
+
+          con.Open();
+            SqlCommand cnn = new SqlCommand("insert into invoicetab(clientid,clientname,phone,address,product,price,tax,total,datecreated) values(@clientid,@clientname,@phone,@address,@product,@price,@tax,@total,@datecreated)", con);
+            cnn.Parameters.AddWithValue("@ClientId", int.Parse(textBox1.Text));
+            cnn.Parameters.AddWithValue("@ClientName", textBox2.Text);
+            cnn.Parameters.AddWithValue("@Phone", textBox3.Text);
+            cnn.Parameters.AddWithValue("@Address", textBox4.Text);
+            cnn.Parameters.AddWithValue("@Product", textBox5.Text);
+            cnn.Parameters.AddWithValue("@Price", textBox6.Text);
+            cnn.Parameters.AddWithValue("@Tax", Convert.ToDecimal(textBox7.Text));
+            cnn.Parameters.AddWithValue("@Total", textBox8.Text);
+            cnn.Parameters.AddWithValue("@DateCreated", dateTimePicker1.Value);
+            cnn.ExecuteNonQuery();
+            con.Close();
+            BindData();
+
+
+
+
+          void BindData()
+        {
+
+            SqlCommand cnn = new SqlCommand("select * from invoicetab", con);
+            SqlDataAdapter da = new SqlDataAdapter(cnn);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+        }
+
+
+
+        Delete Code
+
+
+        con.Open();
+            SqlCommand cnn = new SqlCommand("delete invoicetab where clientid=@clientid", con);
+            cnn.Parameters.AddWithValue("@ClientId", int.Parse(textBox1.Text));
+            
+            cnn.ExecuteNonQuery();
+            con.Close();
+            MessageBox.Show("Record Deleted Successfully");
+            BindData();
+
+
+
+
+        Form Load Code
+
+
+        BindData();
+
+
+
+
+           
